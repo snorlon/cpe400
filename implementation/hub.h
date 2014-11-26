@@ -1,0 +1,6 @@
+class hub
+{
+    public:
+
+    private:
+};
