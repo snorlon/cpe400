@@ -11,9 +11,9 @@ class frame
         frame();
         ~frame();
 
-        packet* strip();//bring out that sexy packet to work with, returns null if none for some reason
+        datagram* strip();//bring out that sexy packet to work with, returns null if none for some reason
     private:
 
-        packet* payload;//just some data to keep in here
+        datagram* payload;//just some data to keep in here
 
 };

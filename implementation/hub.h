@@ -1,6 +1,0 @@
-class hub
-{
-    public:
-
-    private:
-};
