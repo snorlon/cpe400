@@ -20,7 +20,8 @@ int main(int argv, char* argc[])
 
     while(keepRunning)
     {
-
+        //for now, give up like a wuss on first loop
+        keepRunning = false;
     }
 
     return 0;

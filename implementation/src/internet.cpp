@@ -16,6 +16,9 @@ internet::internet(int numDevices)
         if(roll<=0)//hub
         {
             cout<<"HUB generated!"<<endl;
+
+            hub* newDevice = new hub();
+            connectDevice(newDevice);
         }
         else if(roll<=3)//router
         {
@@ -36,5 +39,30 @@ internet::~internet()
         hub* device = connectedDevices;
         connectedDevices = connectedDevices->next;
         delete device;
+    }
+}
+
+bool internet::connectDevice(hub* device)
+{
+    if(device!=NULL)
+        connectedDeviceCount++;
+    else
+        return false;
+
+    cout<<"Device mounted onto network!"<<endl;
+
+    if(connectedDevices == NULL)
+    {
+        connectedDevices = device;
+        return true;
+    }
+    else
+    {
+        hub* iterator = connectedDevices;
+        while(iterator->next!=NULL)
+            iterator = iterator->next;
+
+        iterator->next = device;
+        return true;
     }
 }

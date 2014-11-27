@@ -16,6 +16,8 @@ class internet
         internet(int numDevices);
         ~internet();
 
+        bool connectDevice(hub* device);
+
     private:
 };
 
