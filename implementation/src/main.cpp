@@ -1,10 +1,11 @@
-#include "internet.h"
-#include "ip.h"
-#include "hub.h"
 #include <time.h>
 #include <stdlib.h>
+#include <iostream>
+#include "internet.h"
+#include "ip.h"
+#include "mac.h"
+#include "hub.h"
 
-using namespace std;
 
 bool keepRunning = true;
 internet* theInternet = NULL;
@@ -12,7 +13,11 @@ internet* theInternet = NULL;
 //program designed to be modular to integrate with visuals
 int main(int argv, char* argc[])
 {
-    //seed stuff
+    int i;
+	ip g;
+	mac c;
+	
+	//seed stuff
     srand (time(NULL));
 
     //create the internet here
@@ -23,6 +28,9 @@ int main(int argv, char* argc[])
         //for now, give up like a wuss on first loop
         keepRunning = false;
     }
-
+	g.generate();
+	c.generate();
+	cout<<c.address;
+	cin>>i;
     return 0;
 }

@@ -1,8 +1,11 @@
+#ifndef MACH
+#define MACH
+
 //mac address class
 class mac
 {
     public:
-        char[48] address;//the 48 bits to an address
+        char address[48];//the 48 bits to an address
 
         mac();
         ~mac();
@@ -12,3 +15,4 @@ class mac
         //may need other comparisons later
     private:
 };
+#endif
