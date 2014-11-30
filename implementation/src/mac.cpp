@@ -2,60 +2,85 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 mac::mac()
 {
-    //default all of the values to 0.0.0.0
-    strcpy_s(address,"empty");
-
+    //default all of the values to 0
+    for(int i=0;i<12;i++)
+        address[i] = 0;
 }
 
 mac::~mac()
 {
     //what do?
-
-	//Maybe set these to impossible values?
-    strcpy_s(address,"NULL");
 }
 
 bool mac::generate()
 {
-    //empty for now
-	int checksum;
-	char buffer [30];
-	address[0]='\0';
-	//Replace current mac with new mac;
-	for(int i=0;i<6;i++)
-	{
-		
-		checksum=rand() % 256;
-		_itoa_s (checksum,buffer,16);
-		if (checksum<16)
-		{
-			strcat_s(address,"0");
-		}
-		strcat_s(address,buffer);
-		if (i<5)
-		{
-		strcat_s(address,"-");
-		}
+    bool bits[48];
+    for(int i=0;i<48;i++)
+    {
+        if(rand() % 2 == 0)
+            bits[i] = true;
+        else
+            bits[i] = false;
+    }
+    for(int i=0;i<12;i++)
+    {
+        //determine the characters
+        int value = 0;
+        address[i] = ' ';
 
-	}
+        if(bits[i*4])
+            value+= 8;
+        if(bits[i*4 + 1])
+            value+= 4;
+        if(bits[i*4 + 2])
+            value+= 4;
+        if(bits[i*4 + 3])
+            value+= 4;
+
+        //create the character from it
+        if(value<=9 && value>=0)
+            address[i] = '0'+value;
+        else
+            address[i] = 'A'+value-10;
+    }
 
 	//Not sure what to use this for
     return false;
 }
 
+string mac::printout()
+{
+    string output = "";
+
+    cout<<"MAC address of: ";
+
+    for(int i=0;i<12;i++)
+    {
+        output = output + address[i];
+        cout<<address[i];
+
+        if((i+1)%2 == 0 && i<10)
+            cout<<"-";
+    }
+
+    cout<<endl;
+
+    return output;
+}
+
 bool mac::equal(mac &address2)
 {
-    //compare to see if equal
-  if(strcmp(address,address2.address)==0)
-  {
-	  return true;
-  }
-  else 
-  {
-	  return false;
-  }
+    for(int i=0;i<12;i++)
+    {
+        if(address[i]!=address2.address[i])
+            return false;
+    }
 
+    return true;
 }

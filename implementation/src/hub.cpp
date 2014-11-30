@@ -10,6 +10,10 @@ hub::hub()
 
     next = NULL;
     type = HUB_TYPE;//default is 0 for hub
+
+    //generate our mac address here
+    macAddress.generate();
+    macAddress.printout();
 }
 
 hub::~hub()
@@ -58,6 +62,16 @@ bool hub::addLink(link* newLink)
 
 bool hub::linkTo(hub* destination)
 {
+    //check if we have an existing link first
+    link* iterator = links;
+    while(iterator!=NULL)
+    {
+        if(iterator->end == destination)
+            return false;//abort
+
+        iterator=iterator->next;
+    }
+
     //generate a random "normal" distance for it
     int distance = (rand() % 10)+1;
 

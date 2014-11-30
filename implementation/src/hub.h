@@ -2,6 +2,7 @@
 #define HUBH
 #include <cstddef>
 #include <string>
+#include "mac.h"
 
 using namespace std;
 
@@ -18,6 +19,8 @@ class hub
         hub* next;//for linked list uses
         int type;//for tracking what type of device this is
         int linkCount;
+
+        mac macAddress;
 
         link* links;
 

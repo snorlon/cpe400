@@ -1,5 +1,8 @@
 #ifndef MACH
 #define MACH
+#include <iostream>
+
+using namespace std;
 
 //mac address class
 class mac
@@ -11,6 +14,7 @@ class mac
         ~mac();
 
         bool generate();// make a new mac address
+        string printout();
         bool equal(mac &address);//return true if they are equal
         //may need other comparisons later
     private:
