@@ -12,28 +12,27 @@ internet::internet(int numDevices)
     {
         //randomly decide what to generate
         int roll = rand() % 5;
+        hub* newDevice = NULL;
 
         if(roll<=0)//hub
         {
             cout<<"HUB generated!"<<endl;
 
-            hub* newDevice = new hub();
-            connectDevice(newDevice);
+            newDevice = new hub();
         }
         else if(roll<=3)//router
         {
             cout<<"ROUTER generated!"<<endl;
 
-            hub* newDevice = new router();
-            connectDevice(newDevice);
+            newDevice = new router();
         }
         else if(roll<=4)//switch
         {
             cout<<"SWITCH generated!"<<endl;
 
-            hub* newDevice = new switchDevice();
-            connectDevice(newDevice);
+            newDevice = new switchDevice();
         }
+        connectDevice(newDevice);
     }
 }
 
@@ -50,17 +49,36 @@ internet::~internet()
 
 bool internet::connectDevice(hub* device)
 {
-    if(device!=NULL)
-        connectedDeviceCount++;
-    else
+    if(device==NULL)
         return false;
 
-    cout<<"Device mounted onto network!"<<endl;
+    device->id = connectedDeviceCount;
+
+    //give it a random link
+    if(connectedDeviceCount > 0) // don't try to link the first node please
+    {
+        hub* rDevice = randomDevice();
+        device->linkTo(rDevice);
+
+        for(int i=0;i<5;i++)//random bonus links
+        {
+            if(rand() % 2 == 0)//50% chance to get another link, run until limit
+            {
+                rDevice = randomDevice();
+                device->linkTo(rDevice);
+            }
+            else
+                break;
+        }
+    }
+
+    connectedDeviceCount++;
+
+    cout<<"   Device "<<device->id<<" mounted onto network!"<<endl<<endl;
 
     if(connectedDevices == NULL)
     {
         connectedDevices = device;
-        return true;
     }
     else
     {
@@ -69,6 +87,41 @@ bool internet::connectDevice(hub* device)
             iterator = iterator->next;
 
         iterator->next = device;
-        return true;
     }
+
+    return true;
+}
+
+hub* internet::getDevice(int index)
+{
+    hub* iterator = connectedDevices;
+
+    while(index>0&&iterator!=NULL)
+    {
+        iterator=iterator->next;
+        index--;
+    }
+
+    return iterator;
+}
+
+hub* internet::randomDevice()
+{
+    return getDevice(rand() % connectedDeviceCount);
+}
+
+int internet::countDevices(int type)
+{
+    int count = 0;
+
+    hub* iterator = connectedDevices;
+    while(iterator!=NULL)
+    {
+        if(type == iterator->type)
+            count++;
+
+        iterator=iterator->next;
+    }
+
+    return count;
 }

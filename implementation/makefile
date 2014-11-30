@@ -23,26 +23,31 @@ ROUTER = src/router.cpp
 ROUTERH = src/router.h
 IP = src/ip.cpp
 IPH = src/ip.h
+LINK = src/link.cpp
+LINKH = src/link.h
 
 all: main
 
-main: main.o internet.o ip.o hub.o switch.o router.o
-	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o $(LIBS)
+main: main.o internet.o ip.o hub.o switch.o router.o link.o
+	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o $(LIBS)
 
 main.o: $(MAIN) $(INTERNETH) $(IPH) $(HUBH) $(SWITCHH) $(ROUTERH)
 	$(CC) $(CXXFLAGS) -c $(MAIN) $(LIBS)
 
 internet.o: $(INTERNET) $(INTERNETH) $(HUBH) $(SWITCHH) $(ROUTERH)
-	$(CC) $(CXXFLAGS) -c $(INTERNET) $(HUBH) $(SWITCHH) $(ROUTERH) $(LIBS)
+	$(CC) $(CXXFLAGS) -c $(INTERNET) $(LIBS)
 
 ip.o: $(IP) $(IPH)
 	$(CC) $(CXXFLAGS) -c $(IP) $(LIBS)
 
-hub.o: $(HUB) $(HUBH)
+hub.o: $(HUB) $(HUBH) $(LINKH)
 	$(CC) $(CXXFLAGS) -c $(HUB) $(LIBS)
 
 switch.o: $(SWITCH) $(SWITCHH) $(HUBH)
 	$(CC) $(CXXFLAGS) -c $(SWITCH) $(LIBS)
+
+link.o: $(LINK) $(LINKH) $(HUBH)
+	$(CC) $(CXXFLAGS) -c $(LINK) $(LIBS)
 
 router.o: $(ROUTER) $(ROUTERH) $(SWITCHH) $(HUBH)
 	$(CC) $(CXXFLAGS) -c $(ROUTER) $(LIBS)

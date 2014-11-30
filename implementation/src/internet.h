@@ -17,6 +17,9 @@ class internet
         ~internet();
 
         bool connectDevice(hub* device);
+        hub* getDevice(int index);
+        hub* randomDevice();
+        int countDevices(int type);
 
     private:
 };
