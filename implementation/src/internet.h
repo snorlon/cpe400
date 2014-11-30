@@ -1,9 +1,9 @@
 #ifndef INTERNETH
 #define INTERNETH
-#include "hub.h"
 #include <cstddef>
 #include <stdlib.h>
 #include <iostream>
+#include "router.h"
 
 using namespace std;
 

@@ -1,3 +1,7 @@
+#ifndef PACKETH
+#define PACKETH
+
+#include "mac.h"
 //layer 4 - transport layer
 
 class packet
@@ -8,12 +12,10 @@ class packet
 
         packet* next;//for queuing them
 
-        datagram();
-        ~datagram();
-
-        datagram* strip();//bring out that sexy datagram to work with, returns null if none for some reason
+        packet();
+        ~packet();
     private:
 
-        datagram* payload;//just some data to keep in here
-
 };
+
+#endif

@@ -1,5 +1,5 @@
-#include "datagram.h"
-#include "mac.h"
+#include "frame.h"
+
 //layer 2 - Data link
 
 class frame
@@ -19,3 +19,23 @@ class frame
         datagram* payload;//just some data to keep in here
 
 };
+
+frame::frame()
+{
+    destination = NULL;
+    source = NULL;
+
+    payload = NULL;
+
+    next = NULL;
+}
+
+frame::~frame()
+{
+
+}
+
+datagram* frame::strip()
+{
+    return NULL;
+}

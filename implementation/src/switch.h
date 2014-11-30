@@ -1,7 +1,8 @@
-#include "switch.h"
-//routers should just be a better hub
+#include "hub.h"
+#include "frame.h"
+//switch should just be a better hub
 
-class router: public switchDevice
+class switchDevice: public hub
 {
     public:
         hub* neighbors;//linked list of neighbors this node has that it is "connected" to physically
@@ -9,8 +10,8 @@ class router: public switchDevice
         frame* bufferIncoming;
         frame* bufferOutgoing;//Needed?
 
-        router();
-        ~router();
+        switchDevice();
+        ~switchDevice();
 
         void tick(float dt);//do all actions per tick here, this is for integration purposes
         bool transmit(ip* destination);//generate a random transmission, can give it an IP address to override the random part, bool if fail

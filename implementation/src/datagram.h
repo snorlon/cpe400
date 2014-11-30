@@ -1,3 +1,5 @@
+#include "ip.h"
+#include "packet.h"
 //layer 3 - Network
 
 class datagram
@@ -11,9 +13,9 @@ class datagram
         datagram();
         ~datagram();
 
-        segment* strip();//bring out that sexy segment to work with, returns null if none for some reason
+        packet* strip();//bring out that sexy segment to work with, returns null if none for some reason
     private:
 
-        segment* payload;//just some data to keep in here
+        packet* payload;//just some data to keep in here
 
 };

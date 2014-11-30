@@ -23,10 +23,16 @@ internet::internet(int numDevices)
         else if(roll<=3)//router
         {
             cout<<"ROUTER generated!"<<endl;
+
+            hub* newDevice = new router();
+            connectDevice(newDevice);
         }
         else if(roll<=4)//switch
         {
             cout<<"SWITCH generated!"<<endl;
+
+            hub* newDevice = new switchDevice();
+            connectDevice(newDevice);
         }
     }
 }

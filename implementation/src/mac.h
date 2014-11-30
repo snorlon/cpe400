@@ -5,7 +5,7 @@
 class mac
 {
     public:
-        char address[48];//the 48 bits to an address
+        char address[12];//the 48 bits to an address
 
         mac();
         ~mac();
@@ -15,4 +15,5 @@ class mac
         //may need other comparisons later
     private:
 };
+
 #endif
