@@ -33,3 +33,17 @@ bool ip::equal(ip &address2)
     //otherwise return true
     return true;
 }
+
+string ip::printout()
+{
+    string returnstring = "";
+    returnstring+= to_string(address[0]);
+    returnstring+= ".";
+    returnstring+= to_string(address[1]);
+    returnstring+= ".";
+    returnstring+= to_string(address[2]);
+    returnstring+= ".";
+    returnstring+= to_string(address[3]);
+
+    return returnstring;
+}

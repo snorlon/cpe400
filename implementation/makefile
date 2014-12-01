@@ -23,6 +23,8 @@ ROUTER = src/router.cpp
 ROUTERH = src/router.h
 IP = src/ip.cpp
 IPH = src/ip.h
+IPREG = src/registry.cpp
+IPREGH = src/registry.h
 MAC = src/mac.cpp
 MACH = src/mac.h
 LINK = src/link.cpp
@@ -30,22 +32,25 @@ LINKH = src/link.h
 
 all: main
 
-main: main.o internet.o ip.o hub.o switch.o router.o link.o mac.o
-	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o mac.o $(LIBS)
+main: main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o
+	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o $(LIBS)
 
 main.o: $(MAIN) $(INTERNETH) $(IPH) $(HUBH) $(SWITCHH) $(ROUTERH)
 	$(CC) $(CXXFLAGS) -c $(MAIN) $(LIBS)
 
-internet.o: $(INTERNET) $(INTERNETH) $(HUBH) $(SWITCHH) $(ROUTERH)
+internet.o: $(INTERNET) $(INTERNETH) $(HUBH) $(SWITCHH) $(ROUTERH) $(IPREGH)
 	$(CC) $(CXXFLAGS) -c $(INTERNET) $(LIBS)
 
 ip.o: $(IP) $(IPH)
 	$(CC) $(CXXFLAGS) -c $(IP) $(LIBS)
 
+registry.o: $(IPREG) $(IPREGH) $(IPH)
+	$(CC) $(CXXFLAGS) -c $(IPREG) $(LIBS)
+
 mac.o: $(MAC) $(MACH)
 	$(CC) $(CXXFLAGS) -c $(MAC) $(LIBS)
 
-hub.o: $(HUB) $(HUBH) $(LINKH) $(MACH)
+hub.o: $(HUB) $(HUBH) $(LINKH) $(MACH) $(IPH)
 	$(CC) $(CXXFLAGS) -c $(HUB) $(LIBS)
 
 switch.o: $(SWITCH) $(SWITCHH) $(HUBH)

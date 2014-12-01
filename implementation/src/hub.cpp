@@ -1,12 +1,15 @@
 #include "hub.h"
 #include "link.h"
 #include <iostream>
+#include "ip.h"
 
 using namespace std;
 
 hub::hub()
 {
     id = -1;//default ID
+
+    ipAddress = NULL;
 
     next = NULL;
     type = HUB_TYPE;//default is 0 for hub
@@ -25,6 +28,9 @@ hub::~hub()
         links = links->next;
         delete temp;
     }
+
+    if(ipAddress!=NULL)
+        delete ipAddress;
 }
 
 string hub::typeString()
@@ -98,4 +104,9 @@ bool hub::linkTo(hub* destination)
     destination->addLink(newLinkB);
 
     return true;
+}
+
+void hub::giveIP(ip* newIP)
+{
+    ipAddress = newIP;
 }

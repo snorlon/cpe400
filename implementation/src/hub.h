@@ -6,6 +6,7 @@
 
 using namespace std;
 
+class ip;
 class link;
 class hub
 {
@@ -20,6 +21,7 @@ class hub
         int type;//for tracking what type of device this is
         int linkCount;
 
+        ip* ipAddress;
         mac macAddress;
 
         link* links;
@@ -30,6 +32,7 @@ class hub
         string typeString();
         bool addLink(link* newLink);
         bool linkTo(hub* destination);
+        void giveIP(ip* newIP);
     private:
 };
 

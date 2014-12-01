@@ -32,6 +32,13 @@ internet::internet(int numDevices)
 
             newDevice = new switchDevice();
         }
+
+        //give them an IP
+        ip* newIP = ipRegistry.getRandomIP();
+        newDevice->giveIP(newIP);
+
+        cout<<"IP address of:  "<<newIP->printout()<<endl;
+
         connectDevice(newDevice);
     }
 }
