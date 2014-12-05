@@ -2,6 +2,7 @@
 #include "link.h"
 #include <iostream>
 #include "ip.h"
+#include "internet.h"
 
 using namespace std;
 
@@ -12,11 +13,15 @@ hub::hub()
     ipAddress = NULL;
 
     next = NULL;
+    parent = NULL;
     type = HUB_TYPE;//default is 0 for hub
 
     //generate our mac address here
     macAddress.generate();
     macAddress.printout();
+
+    //generate some random frequency data
+    messageGenThreshold = (rand() % 10000000)+12000000;
 }
 
 hub::~hub()
@@ -109,4 +114,31 @@ bool hub::linkTo(hub* destination)
 void hub::giveIP(ip* newIP)
 {
     ipAddress = newIP;
+}
+
+void hub::tick(double dt)
+{
+    //do nothing for now
+    if(rand() % int(messageGenThreshold) == 0)
+    {
+        //grab a random device
+        hub* destination = parent->randomDevice();
+
+        //create a packet of data to send
+        string message = "ABCDEFGHIJKLMNOP";
+        for(int i=0; i<16;i++)
+            message[i] = (rand() % 26)+'A';
+
+        cout<<"Message spawned! MAC:"<<destination->macAddress.printout()<<" IP:"<<destination->ipAddress->printout()<<" "<<message<<" "<<dt<<endl;
+
+        packet* newPacket = new packet(message, ipAddress, destination->ipAddress);
+
+        //enclose it in a datagram
+
+        //enclose THAT in a frame
+
+        //send it on its merry way
+
+        //figure out how to get it there later, for now we just decide how to make the packet
+    }
 }

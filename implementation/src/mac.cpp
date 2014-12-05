@@ -58,18 +58,13 @@ string mac::printout()
 {
     string output = "";
 
-    cout<<"MAC address of: ";
-
     for(int i=0;i<12;i++)
     {
         output = output + address[i];
-        cout<<address[i];
 
         if((i+1)%2 == 0 && i<10)
-            cout<<"-";
+            output = output+"-";
     }
-
-    cout<<endl;
 
     return output;
 }

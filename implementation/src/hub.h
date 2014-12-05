@@ -3,9 +3,11 @@
 #include <cstddef>
 #include <string>
 #include "mac.h"
+#include "frame.h"
 
 using namespace std;
 
+class internet;
 class ip;
 class link;
 class hub
@@ -15,6 +17,8 @@ class hub
         static const int SWITCH_TYPE = 1;
         static const int ROUTER_TYPE = 2;
 
+        double messageGenThreshold;
+
         int id;
 
         hub* next;//for linked list uses
@@ -23,6 +27,7 @@ class hub
 
         ip* ipAddress;
         mac macAddress;
+        internet* parent;
 
         link* links;
 
@@ -33,6 +38,8 @@ class hub
         bool addLink(link* newLink);
         bool linkTo(hub* destination);
         void giveIP(ip* newIP);
+        frame* generateMessage();//generate a message to send
+        void tick(double dt);
     private:
 };
 

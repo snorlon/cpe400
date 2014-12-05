@@ -23,6 +23,7 @@ class internet
         hub* getDevice(int index);
         hub* randomDevice();
         int countDevices(int type);
+        void tick(double dt);//tick the internet
 
     private:
 };

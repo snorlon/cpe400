@@ -1,3 +1,7 @@
+#ifndef FRAMEH
+#define FRAMEH
+
+#include <cstddef>
 #include "datagram.h"
 #include "mac.h"
 //layer 2 - Data link
@@ -5,10 +9,17 @@
 class frame
 {
     public:
-        mac* destination;
-        mac* source;
+        ip* senderIP;//for overall source and destination
+        ip* destinationIP;
+        mac* senderMac;//for direct source and destination, replaced at each step
+        mac* destinationMac;
 
         frame* next;//for queuing them
+
+        //hardware type not needed
+        //protocol type assumed ARP
+        //lengths not needed
+        int operation;
 
         frame();
         ~frame();
@@ -19,3 +30,4 @@ class frame
         datagram* payload;//just some data to keep in here
 
 };
+#endif

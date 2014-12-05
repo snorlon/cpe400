@@ -1,5 +1,6 @@
 #include "ip.h"
 #include "packet.h"
+#include <cstddef>
 //layer 3 - Network
 
 class datagram
@@ -9,6 +10,16 @@ class datagram
         ip* source;
 
         datagram* next;//for queuing them
+
+        //version not needed
+        //length, type of service not needed
+        int id;//for fragmenting
+        int fragOffset;
+        bool flags[4];
+        int TTL;// hops left
+        //upper layer protocol not needed, assumed UDP
+        //no checksum
+        //options data stored differently?
 
         datagram();
         ~datagram();

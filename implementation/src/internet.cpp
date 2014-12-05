@@ -12,6 +12,7 @@ internet::internet(int numDevices)
     {
         //randomly decide what to generate
         int roll = rand() % 5;
+        roll = 3;//just always make a router, but allow hubs and switches if desired
         hub* newDevice = NULL;
 
         if(roll<=0)//hub
@@ -60,6 +61,7 @@ bool internet::connectDevice(hub* device)
         return false;
 
     device->id = connectedDeviceCount;
+    device->parent = this;
 
     //give it a random link
     if(connectedDeviceCount > 0) // don't try to link the first node please
@@ -131,4 +133,16 @@ int internet::countDevices(int type)
     }
 
     return count;
+}
+
+void internet::tick(double dt)
+{
+    //tick each hub
+    hub* iterator = connectedDevices;
+    while(iterator!=NULL)
+    {
+        iterator->tick(dt);
+
+        iterator=iterator->next;
+    }
 }
