@@ -22,6 +22,11 @@ hub::hub()
 
     //generate some random frequency data
     messageGenThreshold = (rand() % 10000000)+12000000;
+
+    incoming = NULL;
+    outgoing = NULL;
+
+    waiting = false;
 }
 
 hub::~hub()
@@ -31,6 +36,18 @@ hub::~hub()
     {
         link* temp = links;
         links = links->next;
+        delete temp;
+    }
+    while(outgoing!=NULL)
+    {
+        frame* temp = outgoing;
+        outgoing = outgoing->next;
+        delete temp;
+    }
+    while(incoming!=NULL)
+    {
+        frame* temp = incoming;
+        incoming = incoming->next;
         delete temp;
     }
 
@@ -119,7 +136,7 @@ void hub::giveIP(ip* newIP)
 void hub::tick(double dt)
 {
     //do nothing for now
-    if(rand() % int(messageGenThreshold) == 0)
+    if(rand() % int(messageGenThreshold) == 0 && !waiting)
     {
         //grab a random device
         hub* destination = parent->randomDevice();
@@ -134,11 +151,63 @@ void hub::tick(double dt)
         packet* newPacket = new packet(message, ipAddress, destination->ipAddress);
 
         //enclose it in a datagram
+        datagram* newDatagram = new datagram(newPacket, ipAddress, destination->ipAddress, 3);//TTL of 3 for now
 
         //enclose THAT in a frame
+        //need to find the appropriate mac destination for it, leave it NULL for now
+        frame* newFrame = new frame(newDatagram, ipAddress, destination->ipAddress, &macAddress, NULL, 1);//op of 1 for now
 
         //send it on its merry way
+        //which way is that??
+        //add it to outgoing queue for now
+        sendFrame(newFrame);
+    }
 
-        //figure out how to get it there later, for now we just decide how to make the packet
+    //process incoming here
+
+    
+
+    bool processed = false;
+    //now try to process the frontmost outgoing message and send it along
+    if(outgoing!=NULL)
+    {
+        //this means we need to find out if we know where it's going, and find out if we don't know
+            //first, check if it's right next to us
+        link* neighbors = links;
+        while(neighbors!=NULL && !processed)
+        {
+            if(neighbors->end->ipAddress == outgoing->destinationIP)
+            {
+                //they're next to us, so move the message to them
+
+                cout<<"Message DIRECTLY delivered to "<<outgoing->destinationIP->printout()<<" from "<<neighbors->end->ipAddress->printout()<<"!"<<endl;
+
+                //remove the node
+
+                //clean up
+                processed = true;
+            }
+            neighbors=neighbors->next;
+        }
+            //check our routing table of IPs and paths
+        //broadcast for reactive DSR to find out where they are, wait for the response, may take a while
+        //for simulation purposes, we ignore error change, and simply wait until it is back to us while keeping the shortest path to destination in routing table
+        //we still process incoming while waiting, and exit waiting state when what we want arrives and we can send our frame
+    }
+}
+
+void hub::sendFrame(frame* newData)
+{
+    if(outgoing == NULL)
+    {
+        outgoing = newData;
+    }
+    else
+    {
+        frame* iterator = outgoing;
+        while(iterator->next != NULL)
+            iterator = iterator->next;
+
+        iterator->next = newData;
     }
 }

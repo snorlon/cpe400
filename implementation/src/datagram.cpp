@@ -13,6 +13,21 @@ datagram::datagram()
     next = NULL;
 }
 
+datagram::datagram(packet* npayload, ip* origin, ip* dest, int nTTL, int nid, int nfragment, bool fragFlag )
+{
+    payload = npayload;
+    
+    destination = dest;
+    source = origin;
+
+    next = NULL;
+
+    id = nid;//for fragmenting, unused for now
+    fragOffset = nfragment;
+    flags[0] = fragFlag;
+    TTL = nTTL;
+}
+
 datagram::~datagram()
 {
 

@@ -18,7 +18,10 @@ class ip
         bool equal(ip &address2);//return true if they are equal
         string printout();
         //may need other comparisons later
+
     private:
 };
+
+bool operator== (ip &ip1, ip &ip2);
 
 #endif

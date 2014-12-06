@@ -47,3 +47,13 @@ string ip::printout()
 
     return returnstring;
 }
+
+
+bool operator== (ip &ip1, ip &ip2)
+{
+    for(int i=0; i<4; i++)
+        if(ip1.address[i] != ip2.address[i])
+            return false;
+
+    return true;
+}

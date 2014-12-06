@@ -31,6 +31,11 @@ class hub
 
         link* links;
 
+        frame* outgoing;
+        frame* incoming;
+
+        bool waiting;
+
         hub();
         ~hub();
 
@@ -40,6 +45,8 @@ class hub
         void giveIP(ip* newIP);
         frame* generateMessage();//generate a message to send
         void tick(double dt);
+        void sendFrame(frame* newData);//toss a frame into our outgoing queue
+        void broadcast(int operation, frame* payload);
     private:
 };
 

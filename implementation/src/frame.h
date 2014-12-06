@@ -22,6 +22,7 @@ class frame
         int operation;
 
         frame();
+        frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* locDest, int noperation);
         ~frame();
 
         datagram* strip();//bring out that sexy packet to work with, returns null if none for some reason

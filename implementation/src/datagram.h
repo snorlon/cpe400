@@ -22,6 +22,7 @@ class datagram
         //options data stored differently?
 
         datagram();
+        datagram(packet* npayload, ip* origin, ip* dest, int nTTL, int nid = 0, int nfragment = 0, bool fragFlag=false );
         ~datagram();
 
         packet* strip();//bring out that sexy segment to work with, returns null if none for some reason
