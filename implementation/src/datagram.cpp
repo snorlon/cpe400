@@ -35,5 +35,5 @@ datagram::~datagram()
 
 packet* datagram::strip()
 {
-    return NULL;
+    return payload;
 }

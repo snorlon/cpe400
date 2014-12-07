@@ -19,5 +19,6 @@ class mac
         //may need other comparisons later
     private:
 };
+bool operator== (mac &mac1, mac &mac2);
 
 #endif

@@ -35,11 +35,13 @@ DATAGRAM = src/datagram.cpp
 DATAGRAMH = src/datagram.h
 PACKET = src/packet.cpp
 PACKETH = src/packet.h
+ROUTING = src/routing.cpp
+ROUTINGH = src/routing.h
 
 all: main
 
-main: main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o
-	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o $(LIBS)
+main: main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o routing.o
+	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o  routing.o $(LIBS)
 
 main.o: $(MAIN) $(INTERNETH) $(IPH) $(HUBH) $(SWITCHH) $(ROUTERH)
 	$(CC) $(CXXFLAGS) -c $(MAIN) $(LIBS)
@@ -56,7 +58,7 @@ registry.o: $(IPREG) $(IPREGH) $(IPH)
 mac.o: $(MAC) $(MACH)
 	$(CC) $(CXXFLAGS) -c $(MAC) $(LIBS)
 
-hub.o: $(HUB) $(HUBH) $(LINKH) $(MACH) $(IPH) $(FRAMEH)
+hub.o: $(HUB) $(HUBH) $(LINKH) $(MACH) $(IPH) $(FRAMEH) $(ROUTINGH) $(DATAGRAMH) $(PACKETH)
 	$(CC) $(CXXFLAGS) -c $(HUB) $(LIBS)
 
 switch.o: $(SWITCH) $(SWITCHH) $(HUBH)
@@ -76,6 +78,9 @@ datagram.o: $(DATAGRAM) $(DATAGRAMH) $(IPH) $(PACKETH)
 
 packet.o: $(PACKET) $(PACKETH) $(IPH)
 	$(CC) $(CXXFLAGS) -c $(PACKET) $(LIBS)
+
+routing.o: $(ROUTING) $(ROUTINGH) $(IPH) $(MACH) $(LINKH)
+	$(CC) $(CXXFLAGS) -c $(ROUTING) $(LIBS)
 
 clean:
 	rm Project *.o

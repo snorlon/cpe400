@@ -79,3 +79,13 @@ bool mac::equal(mac &address2)
 
     return true;
 }
+
+
+bool operator== (mac &mac1, mac &mac2)
+{
+    for(int i=0; i<12; i++)
+        if(mac1.address[i] != mac2.address[i])
+            return false;
+
+    return true;
+}

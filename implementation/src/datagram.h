@@ -1,3 +1,6 @@
+#ifndef DATAGRAMH
+#define DATAGRAMH
+
 #include "ip.h"
 #include "packet.h"
 #include <cstddef>
@@ -31,3 +34,5 @@ class datagram
         packet* payload;//just some data to keep in here
 
 };
+
+#endif

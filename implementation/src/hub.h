@@ -4,9 +4,12 @@
 #include <string>
 #include "mac.h"
 #include "frame.h"
+#include "routing.h"
+#include "datagram.h"
 
 using namespace std;
 
+class packet;
 class internet;
 class ip;
 class link;
@@ -18,6 +21,8 @@ class hub
         static const int ROUTER_TYPE = 2;
 
         double messageGenThreshold;
+
+        routingEntry* routingTable;
 
         int id;
 
@@ -46,7 +51,13 @@ class hub
         frame* generateMessage();//generate a message to send
         void tick(double dt);
         void sendFrame(frame* newData);//toss a frame into our outgoing queue
+        void recieveFrame(frame* newData);//recieve a frame from someone
         void broadcast(int operation, frame* payload);
+        void broadcastRREQ(ip* origin, ip* target, int TTL, routingEntry* routingInfo);
+        int canReach(ip* address);
+        void storeRouting(routingEntry* routingData);//attempts to store the routing info we just found
+        routingEntry* getEntry(ip* dest);
+        void forwardFrame(frame* package);
     private:
 };
 

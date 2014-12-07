@@ -1,4 +1,8 @@
 #include "ip.h"
+#include <iostream>
+
+using namespace std;
+
 
 ip::ip()
 {

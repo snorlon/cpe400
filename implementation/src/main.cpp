@@ -20,7 +20,7 @@ int main(int argv, char* argc[])
     srand (time(NULL));
 
     //create the internet here
-    theInternet = new internet(50);//temporarily hard-coded parameters
+    theInternet = new internet(20);//temporarily hard-coded parameters
 
     Clock::time_point t0 = Clock::now();//set our clocks
     
