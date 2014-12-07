@@ -89,3 +89,9 @@ bool operator== (mac &mac1, mac &mac2)
 
     return true;
 }
+
+
+bool operator!= (mac &mac1, mac &mac2)
+{
+    return !(mac1==mac2);
+}

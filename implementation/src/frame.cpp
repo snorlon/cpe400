@@ -16,6 +16,8 @@ frame::frame()
     routingData = NULL;
 
     operation = 0;
+
+    id = 0;
 }
 
 frame::frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* locDest, int noperation, routingEntry* priorEntries)
@@ -30,6 +32,8 @@ frame::frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* 
     routingData = priorEntries;
 
     next = NULL;
+
+    id = rand() % 10000;
 }
 
 frame::~frame()

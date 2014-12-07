@@ -55,6 +55,19 @@ internet::~internet()
     }
 }
 
+void internet::init()
+{
+    hub* iterator = connectedDevices;
+
+    //destroy the internet
+    while(iterator!=NULL)
+    {
+        iterator->init();
+
+        iterator = iterator->next;
+    }
+}
+
 bool internet::connectDevice(hub* device)
 {
     if(device==NULL)

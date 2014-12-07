@@ -1,11 +1,13 @@
 #include "routing.h"
 #include "ip.h"
+#include "hub.h"
 
-
-routingEntry::routingEntry()
+routingEntry::routingEntry(hub* ndevice)
 {
     targetIP = NULL;
     nextHopMac = NULL;
+
+    device = ndevice;
 
     weight = 1;
     next = NULL;
@@ -17,6 +19,8 @@ routingEntry::routingEntry(routingEntry* oldEntry)
     nextHopMac = oldEntry->nextHopMac;
     weight = oldEntry->weight;
     next = NULL;
+
+    device = oldEntry->device;
 }
 
 

@@ -5,6 +5,7 @@
 #include "mac.h"
 #include "link.h"
 
+class hub;
 class ip;
 class routingEntry
 {
@@ -12,11 +13,13 @@ class routingEntry
         ip* targetIP;//the ip where we're headed
         mac* nextHopMac;//the next direct step to our destination
 
+        hub* device;//not supposed to be here, but is for simulation stuff
+
         int weight;//unused maybe?
 
         routingEntry* next;
 
-        routingEntry();
+        routingEntry(hub* ndevice = NULL);
         routingEntry(routingEntry* oldEntry);
         routingEntry(ip* target, mac* nextHop, int nweight = 1, routingEntry* priorEntry = NULL);
         ~routingEntry();

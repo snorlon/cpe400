@@ -20,5 +20,6 @@ class mac
     private:
 };
 bool operator== (mac &mac1, mac &mac2);
+bool operator!= (mac &mac1, mac &mac2);
 
 #endif

@@ -19,6 +19,8 @@ class internet
         internet(int numDevices);
         ~internet();
 
+        void init();
+
         bool connectDevice(hub* device);
         hub* getDevice(int index);
         hub* randomDevice();

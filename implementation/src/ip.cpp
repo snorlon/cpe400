@@ -61,3 +61,9 @@ bool operator== (ip &ip1, ip &ip2)
 
     return true;
 }
+
+
+bool operator!= (ip &ip1, ip &ip2)
+{
+    return !(ip1==ip2);
+}

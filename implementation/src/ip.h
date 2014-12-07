@@ -23,5 +23,6 @@ class ip
 };
 
 bool operator== (ip &ip1, ip &ip2);
+bool operator!= (ip &ip1, ip &ip2);
 
 #endif

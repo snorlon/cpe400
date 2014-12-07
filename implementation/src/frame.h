@@ -15,6 +15,8 @@ class frame
         mac* senderMac;//for direct source and destination, replaced at each step
         mac* destinationMac;
 
+        int id;//for debugging
+
         routingEntry* routingData;//for storing data from RREQ
 
         frame* next;//for queuing them

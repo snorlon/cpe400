@@ -58,6 +58,35 @@ hub::~hub()
         delete ipAddress;
 }
 
+void hub::init()
+{
+    //by default store all of our neighbors in our routing table
+    link* iterator = links;
+    while(iterator!=NULL)
+    {
+        //generate a routing table entry for each neighbor
+        routingEntry* newEntry = new routingEntry(iterator->end->ipAddress, &(iterator->end->macAddress), iterator->weight);
+        storeRouting(newEntry, true);
+        
+        iterator = iterator->next;
+    }
+}
+
+void hub::generateRoutingInfo()
+{
+    //check all connected entries for more connections to see if we can reach them
+    routingEntry* iterator = routingTable;
+
+    //check all elements in routing table
+    while(iterator!=NULL)
+    {
+        //check all of their neighbors to see if we have them
+            //if we do not, add them
+        //if we do, check if they're closer than our current knowledge
+            //if they are, replace our data for them
+    }
+}
+
 string hub::typeString()
 {
     switch(type)
@@ -153,7 +182,7 @@ void hub::tick(double dt)
             for(int i=0; i<16;i++)
                 message[i] = (rand() % 26)+'A';
 
-            cout<<"Message spawned! MAC:"<<destination->macAddress.printout()<<" IP:"<<destination->ipAddress->printout()<<" "<<message<<" "<<endl;
+            cout<<"Message spawned! MAC:"<<destination->macAddress.printout()<<" IP:"<<destination->ipAddress->printout()<<" "<<message<<" |"<<ipAddress->printout()<<endl;
 
             packet* newPacket = new packet(message, ipAddress, destination->ipAddress);
 
@@ -201,7 +230,7 @@ void hub::tick(double dt)
                 {
                     //they're next to us, so move the message to them
 
-                    cout<<"Message handed to "<<outgoing->destinationMac->printout()<<" from "<<macAddress.printout()<<"!"<<endl;
+                    cout<<"Message handed to "<<outgoing->destinationMac->printout()<<" from "<<macAddress.printout()<<"|"<<outgoing->id<<"!"<<endl;
 
                     //remove the node
                     frame* temp = outgoing;
@@ -246,14 +275,14 @@ void hub::tick(double dt)
             throwaway = true;
         }
 
-        
-        //attempt to store routing data
-        storeRouting(currFrame->routingData);
-
         //decide what to do with the info we found
         //case for RREQ table building
         if(currFrame->operation == 3)
         {
+            //attempt to store routing data
+            storeRouting(currFrame->routingData,true);
+
+                    //cout<<"!!!"<<macAddress.printout()<<" from "<<incoming->senderMac->printout()<<"!"<<endl;
             //are we who they wanted to reach?
             if(currDatagram->destination == ipAddress)
             {
@@ -261,8 +290,9 @@ void hub::tick(double dt)
                 routingEntry* entry = getEntry(currDatagram->source);
                 if(entry!=NULL)
                 {
-                    //cout<<"Responding to RREQ! "<<endl;//<<currFrame->senderMac->printout()<<"|"<<currDatagram->source->printout()<<endl;
-
+                    //cout<<"Responding to RREQ! "<<currFrame->senderMac->printout()<<"|"<<entry->nextHopMac->printout()<<"|"<<currDatagram->source->printout()<<endl;
+//if(currDatagram->source!=currFrame->senderIP)
+                //cout<<"RESPONDING!"<<currFrame->id<<dt<<endl;  
                     //cout<<"SHARING THE LOVE"<<endl;
                     packet* newPacket = new packet();
                     datagram* newDatagram = new datagram(newPacket, ipAddress, currDatagram->source, 999999);
@@ -300,6 +330,7 @@ void hub::tick(double dt)
         //RREP
         else if(currFrame->operation == 4)
         {
+            storeRouting(currFrame->routingData,false);
             //are we who they wanted to reach?
             if(currDatagram->destination == ipAddress)
             {
@@ -311,6 +342,7 @@ void hub::tick(double dt)
             else//otherwise, rebuild it and send it along
             {
                 //send it on!
+                cout<<"WUT!"<<dt<<endl;  
                 routingEntry* entry = getEntry(currDatagram->destination);
                 if(entry!=NULL)
                 {
@@ -418,68 +450,141 @@ int hub::canReach(ip* address)
     return 999999;//arbitrary, up as needed
 }
 
-void hub::storeRouting(routingEntry* newData)
+void hub::storeRouting(routingEntry* newData, bool forward)
 {
+    if(newData==NULL)
+        return;//abort if no stuff to add to our routing
+
     int weightSum = 0;
     //check attached routing info to see if we can use it
+    routingEntry* endCondition = NULL;
+    routingEntry* startCondition = newData;
+    mac* adjacentMac = NULL;
 
-    while(newData!=NULL)
+    if(!forward)//we need to reverse our checking if we are rebuilding from the back
+    {
+        endCondition = NULL;
+        startCondition = newData;
+        if(startCondition!=NULL)
+            while(startCondition->next != NULL)
+                startCondition = startCondition->next;
+    }
+    routingEntry* iterator = startCondition;
+
+    //establish the nearest routing mac address to reach it, and use that for the mac in the routing table
+    //if it came forward due to being a type 3 message, then we take the frontmost one for all macs
+    //if not, we take the one just before us in the routing data and use it for all
+    if(forward)
+    {
+        //just pull the forward-most one for all of them as it is by default nearest
+        adjacentMac = newData->nextHopMac;
+    }
+    else
+    {
+        //pull the one that is just before us for the reverse path, abort when we pass it
+        routingEntry* iterator4 = newData;
+        while(iterator4!=NULL && iterator4->next!=NULL && *(iterator4->next->nextHopMac) != macAddress)
+            iterator4 = iterator4->next;
+
+        if(iterator4!=NULL)
+            adjacentMac = iterator4->nextHopMac;
+    }
+
+    while(iterator!=endCondition)
     {
         //calc distance to it through its pathway
-        weightSum+=newData->weight;
+        weightSum+=iterator->weight;
 
-
-        int cr = canReach(newData->targetIP);
-        //is it closer than us
-        if(cr > weightSum )
+        if(!(iterator->targetIP==ipAddress))
         {
-
-            //store it if so
-            if(cr == 999999)
-            {
-                routingEntry* newEntry = new routingEntry(newData);
-
-                newEntry->weight = weightSum;
-                newEntry->next = routingTable;
-                routingTable = newEntry;
-
-                return;
-            }
-            else
+            int cr = canReach(iterator->targetIP);
+            //is it closer than us
+            if(cr > weightSum )
             {
 
-                //remove the existing
-                routingEntry* iterator = routingTable;
-
-                while(iterator!=NULL)
+                //store it if so
+                if(cr == 999999)
                 {
-                    if(iterator->targetIP == newData->targetIP)//found it
+                    routingEntry* newEntry = new routingEntry(iterator);
+    
+                    newEntry->weight = weightSum;
+                    newEntry->next = routingTable;
+                    newEntry->nextHopMac = adjacentMac;
+                    routingTable = newEntry;
+
+                    return;
+                }
+                else
+                {
+
+                    //remove the existing
+                    routingEntry* iterator2 = routingTable;
+
+                    while(iterator2!=NULL)
                     {
-                        iterator->weight = weightSum;
-                        iterator->nextHopMac = newData->nextHopMac;
-                    }
+                        if(iterator2->targetIP == iterator->targetIP)//found it
+                        {
+                            iterator2->weight = weightSum;
+                            iterator2->nextHopMac = iterator->nextHopMac;
+                        }
 
-                    iterator = iterator->next;
-                } 
+                        iterator2 = iterator2->next;
+                    } 
 
 
 
-                routingEntry* newEntry = new routingEntry(newData);
-                newEntry->weight = weightSum;
-                newEntry->next = routingTable;
-                routingTable = newEntry;
+                    routingEntry* newEntry = new routingEntry(iterator);
+                    newEntry->weight = weightSum;
+                    newEntry->next = routingTable;
+                    newEntry->nextHopMac = adjacentMac;
+                    routingTable = newEntry;
 
-                return;
+                    return;
+                }
+
             }
-
         }
 
-        newData = newData->next;
+        //fancy linked list forward and backward stuff to figure it out
+        if(forward)
+            iterator = iterator->next;
+        else
+        {
+            routingEntry* iterator3 = newData;
+            if(iterator == newData)
+                iterator = NULL;
+            else
+            {
+                while(iterator3->next != iterator)
+                    iterator3 = iterator3->next;
+
+                iterator = iterator3;
+            }
+        }
     }
 }
 
 routingEntry* hub::getEntry(ip* dest)
 {
+cout<<"A"<<endl;
+cout<<"__________________"<<endl;
+    routingEntry* iterator2 = routingTable;
+    while(iterator2!=NULL)
+    {
+        cout<<iterator2->nextHopMac->printout()<<"|"<<iterator2->targetIP->printout()<<endl;
+
+        iterator2 = iterator2->next;
+    }
+cout<<"_"<<endl;
+    link* iterator3 = links;
+    while(iterator3!=NULL)
+    {
+        cout<<iterator3->end->macAddress.printout()<<"|"<<iterator3->end->ipAddress->printout()<<endl;
+
+        iterator3 = iterator3->next;
+    }
+cout<<"__________________"<<endl;
+
     routingEntry* iterator = routingTable;
     while(iterator!=NULL)
     {

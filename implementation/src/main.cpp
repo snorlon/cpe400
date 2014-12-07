@@ -18,11 +18,15 @@ int main(int argv, char* argc[])
 {
     //seed stuff
     srand (time(NULL));
+    //srand (12);
 
     //create the internet here
-    theInternet = new internet(20);//temporarily hard-coded parameters
+    theInternet = new internet(10);//temporarily hard-coded parameters
 
     Clock::time_point t0 = Clock::now();//set our clocks
+
+    //init the internet
+    theInternet->init();
     
 
     while(keepRunning)

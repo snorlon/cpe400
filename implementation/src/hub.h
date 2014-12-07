@@ -44,6 +44,10 @@ class hub
         hub();
         ~hub();
 
+        void init();
+
+        void generateRoutingInfo();//run this N times, N being the number of routers
+
         string typeString();
         bool addLink(link* newLink);
         bool linkTo(hub* destination);
@@ -55,7 +59,7 @@ class hub
         void broadcast(int operation, frame* payload);
         void broadcastRREQ(ip* origin, ip* target, int TTL, routingEntry* routingInfo);
         int canReach(ip* address);
-        void storeRouting(routingEntry* routingData);//attempts to store the routing info we just found
+        void storeRouting(routingEntry* routingData, bool forward);//attempts to store the routing info we just found
         routingEntry* getEntry(ip* dest);
         void forwardFrame(frame* package);
     private:
