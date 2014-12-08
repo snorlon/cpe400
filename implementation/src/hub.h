@@ -53,7 +53,7 @@ class hub
         bool addLink(link* newLink);//add an existing link to our links list
         bool linkTo(hub* destination);//create a link to a device
         void giveIP(ip* newIP);//assign the router an ip
-        virtual void tick(double dt);//all stuff happens in here, message generation and frame processing
+        virtual void tick(double dt, int outputlevel);//all stuff happens in here, message generation and frame processing
         void sendFrame(frame* newData);//toss a frame into our outgoing queue
         void recieveFrame(frame* newData);//recieve a frame from someone into our incoming queue
         void broadcast(int operation, frame* payload);//unused, can be used, TO FINISH

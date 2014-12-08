@@ -208,7 +208,7 @@ void hub::giveIP(ip* newIP)
     ipAddress = newIP;
 }
 
-void hub::tick(double dt)
+void hub::tick(double dt, int outputlevel)
 {
     //do nothing for now
     if(rand() % int(messageGenThreshold) == 0)

@@ -72,15 +72,18 @@ void slave::processOutgoing()
     }
 }
 
-void slave::tick(float dt)
+void slave::tick(float dt, int outputlevel)
 {
     if(permittedToTransmit)
     {
-        if(outgoing == NULL)
-            cout<<"*Nothing to transmit!"<<endl;
-        else
-            cout<<"*"<<macAddress.printout()<<" transmitting!"<<endl;
-        hub::tick(dt);
+        if(outputlevel <= 0)
+        {
+            if(outgoing == NULL)
+                cout<<"*Nothing to transmit!"<<endl;
+            else
+                cout<<"*"<<macAddress.printout()<<" transmitting!"<<endl;
+        }
+        hub::tick(dt, outputlevel);
     }
 
     //ensure we always surrender permission when done

@@ -178,13 +178,13 @@ int internet::countDevices(int type)
     return count;
 }
 
-void internet::tick(double dt)
+void internet::tick(double dt, int outputlevel)
 {
     //tick each hub
     hub* iterator = connectedDevices;
     while(iterator!=NULL)
     {
-        iterator->tick(dt);
+        iterator->tick(dt, outputlevel);
 
         iterator=iterator->next;
     }

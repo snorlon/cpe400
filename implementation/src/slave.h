@@ -11,7 +11,7 @@ class slave: public router
         ~slave();
 
         void processOutgoing();
-        void tick(float dt);
+        void tick(float dt, int outputlevel);
     private:
 };
 

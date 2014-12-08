@@ -35,9 +35,6 @@ master::master()
 
 master::~master()
 {
-    //delete our slaves
-    for(int i=0; i<childCount; i++)
-        delete slaves[i];
 }
 
 void master::init()
@@ -71,9 +68,9 @@ void master::init()
     }
 }
 
-void master::tick(double dt)//do our tick first, then our loyal slaves
+void master::tick(double dt, int outputlevel)//do our tick first, then our loyal slaves
 {
-    hub::tick(dt);//tick us
+    hub::tick(dt, outputlevel);//tick us
 
     //give a child permission to act
     if(slaves[currentTransmitting]!=NULL)
@@ -86,10 +83,10 @@ void master::tick(double dt)//do our tick first, then our loyal slaves
 
     for(int i=0; i<childCount; i++)
     {
-        if(slaves[i]->permittedToTransmit)
+        if(slaves[i]->permittedToTransmit && outputlevel <= 0)
             cout<<endl<<"*"<<macAddress.printout()<<" gives permission to transmit to the slave "<<slaves[i]->macAddress.printout()<<endl;
 
-        slaves[i]->tick(dt);//tick the slave
+        slaves[i]->tick(dt, outputlevel);//tick the slave
     }
 }
 

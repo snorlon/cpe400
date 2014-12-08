@@ -15,6 +15,7 @@ long int cycleLimit = 0;
 int deviceCount = 10;
 int masterCount = 5;
 int seed = 0;
+int outputlevel = 0;
 
 typedef std::chrono::high_resolution_clock Clock;
 typedef std::chrono::nanoseconds nanoseconds;
@@ -38,6 +39,9 @@ int main(int argv, char* argc[])
 
     if(argv>4)
         cycleLimit = atoi(argc[4]);
+
+    if(argv>5)
+        outputlevel = atoi(argc[5]);
 
     //seed stuff
     if(seed == 0)
@@ -63,7 +67,7 @@ int main(int argv, char* argc[])
         double dt = ms.count();
         t0 = t1;
 
-        theInternet->tick(dt);
+        theInternet->tick(dt, outputlevel);
 
         cycles++;
 

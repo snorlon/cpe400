@@ -18,7 +18,7 @@ class master: public router
         ~master();
 
         void init();
-        void tick(double dt);
+        void tick(double dt, int outputlevel);
         void generateRoutingInfo();//overridden to factor in slaves
     private:
 };
