@@ -6,18 +6,18 @@
 using namespace std;
 
 class hub;
-class link
+class netlink
 {
     public:
 
         hub* start;
         hub* end;
-        link* next;//for linked list uses
+        netlink* next;//for linked list uses
         int weight;//the weight or distance or cost of the link
 
-        link();
-        link(hub* nStart, hub* nEnd);
-        ~link();
+        netlink();
+        netlink(hub* nStart, hub* nEnd);
+        ~netlink();
     private:
 };
 

@@ -44,8 +44,8 @@ SLAVEH = src/slave.h
 
 all: main
 
-main: main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o routing.o master.o slave.o
-	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o  routing.o master.o slave.o $(LIBS)
+main: main.o internet.o ip.o hub.o link.o switch.o router.o mac.o registry.o frame.o datagram.o packet.o routing.o master.o slave.o
+	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o link.o switch.o router.o mac.o registry.o frame.o datagram.o packet.o  routing.o master.o slave.o $(LIBS)
 
 main.o: $(MAIN) $(INTERNETH) $(IPH) $(HUBH) $(SWITCHH) $(ROUTERH)
 	$(CC) $(CXXFLAGS) -c $(MAIN) $(LIBS)

@@ -12,7 +12,7 @@ using namespace std;
 class packet;
 class internet;
 class ip;
-class link;
+class netlink;
 class hub
 {
     public:
@@ -36,7 +36,7 @@ class hub
         mac macAddress;
         internet* parent;
 
-        link* links;
+        netlink* links;
 
         frame* outgoing;
         frame* incoming;
@@ -50,7 +50,7 @@ class hub
         virtual void generateRoutingInfo();//run this N times, N being the number of routers
 
         virtual string typeString();//get the name of the device, EX: Hub, Router, Switch
-        bool addLink(link* newLink);//add an existing link to our links list
+        bool addLink(netlink* newLink);//add an existing link to our links list
         bool linkTo(hub* destination);//create a link to a device
         void giveIP(ip* newIP);//assign the router an ip
         virtual void tick(double dt, int outputlevel);//all stuff happens in here, message generation and frame processing

@@ -44,7 +44,7 @@ void slave::processOutgoing()
             //check neighbors for next hop
 
             //hand it off to the next step in the chain
-            link* neighbors = links;
+            netlink* neighbors = links;
             while(neighbors!=NULL && !processed)
             {
                 if((neighbors->end->macAddress) == *(outgoing->destinationMac))

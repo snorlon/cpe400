@@ -1,7 +1,7 @@
 #include "hub.h"
 #include "link.h"
 
-link::link()
+netlink::netlink()
 {
     start = NULL;
     end = NULL;
@@ -9,7 +9,7 @@ link::link()
     weight = 1;//default weight is 1
 }
 
-link::link(hub* nStart, hub* nEnd)
+netlink::netlink(hub* nStart, hub* nEnd)
 {
     start = nStart;
     end = nEnd;
@@ -17,7 +17,7 @@ link::link(hub* nStart, hub* nEnd)
     weight = 1;
 }
 
-link::~link()
+netlink::~netlink()
 {
 
 }

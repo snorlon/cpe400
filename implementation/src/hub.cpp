@@ -35,7 +35,7 @@ hub::~hub()
     //KILL ALL LINKS
     while(links!=NULL)
     {
-        link* temp = links;
+        netlink* temp = links;
         links = links->next;
         delete temp;
     }
@@ -59,7 +59,7 @@ hub::~hub()
 void hub::init()
 {
     //by default store all of our neighbors in our routing table
-    link* iterator = links;
+    netlink* iterator = links;
     while(iterator!=NULL)
     {
         //generate a routing table entry for each neighbor
@@ -147,7 +147,7 @@ string hub::typeString()
     return "Error";
 }
 
-bool hub::addLink(link* newLink)
+bool hub::addLink(netlink* newLink)
 {
     if(links == NULL)
     {
@@ -166,7 +166,7 @@ bool hub::addLink(link* newLink)
 bool hub::linkTo(hub* destination)
 {
     //check if we have an existing link first
-    link* iterator = links;
+    netlink* iterator = links;
     while(iterator!=NULL)
     {
         if(iterator->end == destination)
@@ -188,11 +188,11 @@ bool hub::linkTo(hub* destination)
             failed = true;
     }
 
-    //create a new link to it and store it on both ends
-    link* newLinkA = new link(this, destination);
-    link* newLinkB = new link(destination, this);
+    //create a new netlink to it and store it on both ends
+    netlink* newLinkA = new netlink(this, destination);
+    netlink* newLinkB = new netlink(destination, this);
 
-    cout<<"   New link with distance "<<distance<<" from Device "<<id<<" to Device "<<destination->id<<"!"<<endl;
+    cout<<"   new netlink with distance "<<distance<<" from Device "<<id<<" to Device "<<destination->id<<"!"<<endl;
 
     newLinkA->weight = distance;
     newLinkB->weight = distance;
@@ -304,7 +304,7 @@ routingEntry* hub::acquireEntry(ip* dest)
 
 void hub::forwardFrame(frame* package)
 {
-    link* iterator = links;
+    netlink* iterator = links;
     while(iterator != NULL)
     {
         if(&(iterator->end->macAddress) == package->destinationMac)
@@ -392,7 +392,7 @@ void hub::processOutgoing()
         //check neighbors for next hop
 
         //hand it off to the next step in the chain
-        link* neighbors = links;
+        netlink* neighbors = links;
         while(neighbors!=NULL && !processed)
         {
             if((neighbors->end->macAddress) == *(outgoing->destinationMac))
