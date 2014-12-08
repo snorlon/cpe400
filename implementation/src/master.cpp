@@ -11,6 +11,26 @@ master::master()
         slaves[i] = NULL;
 
     currentTransmitting = 0;
+
+    
+    id = -1;//default ID
+
+    ipAddress = NULL;
+
+    routingTable = NULL;
+
+    next = NULL;
+    parent = NULL;
+
+    //generate our mac address here
+    macAddress.generate();
+    macAddress.printout();
+
+    //generate some random frequency data
+    messageGenThreshold = (rand() % 10000000)+12000000;
+
+    incoming = NULL;
+    outgoing = NULL;
 }
 
 master::~master()
@@ -32,6 +52,9 @@ void master::init()
         //generate new slaves
         slaves[i] = new slave();
         cout<<"Slave generated!"<<endl;
+
+        //tell them who their daddy is
+        slaves[i]->parent = parent;
 
         //give them an ip
         slaves[i]->giveIP(ipAddress->ipRegistry->getRandomIP());
@@ -63,7 +86,21 @@ void master::tick(double dt)//do our tick first, then our loyal slaves
 
     for(int i=0; i<childCount; i++)
     {
-        //BUGGY
-        ((hub*) slaves[i])->tick(dt);//tick the slave
+        if(slaves[i]->permittedToTransmit)
+            cout<<endl<<"*"<<macAddress.printout()<<" gives permission to transmit to the slave "<<slaves[i]->macAddress.printout()<<endl;
+
+        slaves[i]->tick(dt);//tick the slave
+    }
+}
+
+void master::generateRoutingInfo()
+{
+    //then for us
+    hub::generateRoutingInfo();
+
+    //do it for all of our slaves
+    for(int i=0; i<childCount; i++)
+    {
+        slaves[i]->generateRoutingInfo();
     }
 }

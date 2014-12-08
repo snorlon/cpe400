@@ -292,7 +292,7 @@ routingEntry* hub::acquireEntry(ip* dest)
     {
         if(*(iterator->targetIP) == *dest)
         {
-        //cout<<"GIVING|"<<macAddress.printout()<<"|"<<iterator->nextHopMac->printout()<<"|"<<iterator->targetIP->printout()<<endl;
+            //cout<<"GIVING|"<<macAddress.printout()<<"|"<<iterator->nextHopMac->printout()<<"|"<<iterator->targetIP->printout()<<endl;
             return iterator;
         }
 

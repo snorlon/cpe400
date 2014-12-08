@@ -47,7 +47,7 @@ class hub
         virtual void init();//initialize the device for operation
 
         bool storeEntry(routingEntry* midpoint, routingEntry* targetEntry);//attempt to store the given entry into the routing table and replace if existent
-        void generateRoutingInfo();//run this N times, N being the number of routers
+        virtual void generateRoutingInfo();//run this N times, N being the number of routers
 
         virtual string typeString();//get the name of the device, EX: Hub, Router, Switch
         bool addLink(link* newLink);//add an existing link to our links list

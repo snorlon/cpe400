@@ -19,6 +19,7 @@ class master: public router
 
         void init();
         void tick(double dt);
+        void generateRoutingInfo();//overridden to factor in slaves
     private:
 };
 

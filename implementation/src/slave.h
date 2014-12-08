@@ -11,6 +11,7 @@ class slave: public router
         ~slave();
 
         void processOutgoing();
+        void tick(float dt);
     private:
 };
 
