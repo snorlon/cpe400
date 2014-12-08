@@ -11,6 +11,8 @@ ip::ip()
     address[1] = 0;
     address[2] = 0;
     address[3] = 0;
+
+    ipRegistry = NULL;
 }
 
 ip::~ip()

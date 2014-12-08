@@ -1,3 +1,6 @@
+#ifndef ROUTERH
+#define ROUTERH
+
 #include "switch.h"
 //routers should just be a better hub
 
@@ -18,3 +21,5 @@ class router: public switchDevice
 
     private:
 };
+
+#endif

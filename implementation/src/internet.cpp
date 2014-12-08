@@ -1,6 +1,6 @@
 #include "internet.h"
 
-internet::internet(int numDevices)
+internet::internet(int numDevices, int masterCount)
 {
     connectedDevices = NULL;
 
@@ -42,6 +42,23 @@ internet::internet(int numDevices)
 
         connectDevice(newDevice);
     }
+
+    //generate masters, they'll create their own slaves
+    for(int i=0;i<masterCount;i++)
+    {
+        hub* newDevice = NULL;
+
+        cout<<"MASTER router generated!"<<endl;
+        newDevice = new master();
+
+        //give them an IP
+        ip* newIP = ipRegistry.getRandomIP();
+        newDevice->giveIP(newIP);
+
+        cout<<"IP address of:  "<<newIP->printout()<<endl;
+
+        connectDevice(newDevice);
+    }
 }
 
 internet::~internet()
@@ -57,6 +74,7 @@ internet::~internet()
 
 void internet::init()
 {
+
     hub* iterator = connectedDevices;
 
     //init the internet

@@ -137,6 +137,12 @@ string hub::typeString()
         case ROUTER_TYPE:
             return "Router";
             break;
+        case MASTER_TYPE:
+            return "Master";
+            break;
+        case SLAVE_TYPE:
+            return "Slave";
+            break;
     }
     return "Error";
 }

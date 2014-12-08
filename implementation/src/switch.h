@@ -1,3 +1,6 @@
+#ifndef SWITCHH
+#define SWITCHH
+
 #include "hub.h"
 #include "frame.h"
 //switch should just be a better hub
@@ -19,3 +22,5 @@ class switchDevice: public hub
 
     private:
 };
+
+#endif

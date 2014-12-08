@@ -19,6 +19,8 @@ class hub
         static const int HUB_TYPE = 0;
         static const int SWITCH_TYPE = 1;
         static const int ROUTER_TYPE = 2;
+        static const int MASTER_TYPE = 3;
+        static const int SLAVE_TYPE = 4;
 
         double messageGenThreshold;
 
@@ -40,14 +42,14 @@ class hub
         frame* incoming;
 
         hub();
-        ~hub();
+        virtual ~hub();
 
-        void init();//initialize the device for operation
+        virtual void init();//initialize the device for operation
 
         bool storeEntry(routingEntry* midpoint, routingEntry* targetEntry);//attempt to store the given entry into the routing table and replace if existent
         void generateRoutingInfo();//run this N times, N being the number of routers
 
-        string typeString();//get the name of the device, EX: Hub, Router, Switch
+        virtual string typeString();//get the name of the device, EX: Hub, Router, Switch
         bool addLink(link* newLink);//add an existing link to our links list
         bool linkTo(hub* destination);//create a link to a device
         void giveIP(ip* newIP);//assign the router an ip

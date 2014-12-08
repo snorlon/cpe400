@@ -3,7 +3,8 @@
 #include <cstddef>
 #include <stdlib.h>
 #include <iostream>
-#include "router.h"
+#include "master.h"
+#include "slave.h"
 #include "registry.h"
 
 using namespace std;
@@ -16,7 +17,7 @@ class internet
 
         registry ipRegistry;//all ips will be pulled from here
 
-        internet(int numDevices);
+        internet(int numDevices, int masterCount);
         ~internet();
 
         void init();

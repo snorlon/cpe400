@@ -13,7 +13,7 @@ class routingEntry
         ip* targetIP;//the ip where we're headed
         mac* nextHopMac;//the next direct step to our destination
 
-        hub* device;//not supposed to be here, but is for simulation stuff
+        hub* device;//not supposed to be here, but is for simulation stuff to tell us device stuff that we're holding routing to
 
         int weight;//unused maybe?
 

@@ -1,6 +1,7 @@
 #ifndef IPH
 #define IPH
 #include <string>
+#include "registry.h"
 
 using namespace std;
 
@@ -10,6 +11,8 @@ class ip
     public:
         int address[4];//4 integers 0-255 make up an ip
         ip* next; //purely for the registry
+
+        registry* ipRegistry;
 
         ip();
         ~ip();

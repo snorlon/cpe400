@@ -28,6 +28,8 @@ registry::registry()
                         newIP->address[2] = c;
                         newIP->address[3] = d;
 
+                        newIP->ipRegistry = this;
+
                         returnIP(newIP);//toss the ip into the registry
                     }
                 }

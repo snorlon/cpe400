@@ -37,19 +37,23 @@ PACKET = src/packet.cpp
 PACKETH = src/packet.h
 ROUTING = src/routing.cpp
 ROUTINGH = src/routing.h
+MASTER = src/master.cpp
+MASTERH = src/master.h
+SLAVE = src/slave.cpp
+SLAVEH = src/slave.h
 
 all: main
 
-main: main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o routing.o
-	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o  routing.o $(LIBS)
+main: main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o routing.o master.o slave.o
+	$(CC) $(CXXFLAGS) -o $(OUTPUT) main.o internet.o ip.o hub.o switch.o router.o link.o mac.o registry.o frame.o datagram.o packet.o  routing.o master.o slave.o $(LIBS)
 
 main.o: $(MAIN) $(INTERNETH) $(IPH) $(HUBH) $(SWITCHH) $(ROUTERH)
 	$(CC) $(CXXFLAGS) -c $(MAIN) $(LIBS)
 
-internet.o: $(INTERNET) $(INTERNETH) $(HUBH) $(SWITCHH) $(ROUTERH) $(IPREGH)
+internet.o: $(INTERNET) $(INTERNETH) $(HUBH) $(SWITCHH) $(ROUTERH) $(MASTERH) $(SLAVEH) $(IPREGH)
 	$(CC) $(CXXFLAGS) -c $(INTERNET) $(LIBS)
 
-ip.o: $(IP) $(IPH)
+ip.o: $(IP) $(IPH) $(IPREGH)
 	$(CC) $(CXXFLAGS) -c $(IP) $(LIBS)
 
 registry.o: $(IPREG) $(IPREGH) $(IPH)
@@ -81,6 +85,12 @@ packet.o: $(PACKET) $(PACKETH) $(IPH)
 
 routing.o: $(ROUTING) $(ROUTINGH) $(IPH) $(MACH) $(LINKH)
 	$(CC) $(CXXFLAGS) -c $(ROUTING) $(LIBS)
+
+master.o: $(MASTER) $(MASTERH) $(SLAVEH) $(ROUTERH) $(IPH) $(MACH)
+	$(CC) $(CXXFLAGS) -c $(MASTER) $(LIBS)
+
+slave.o: $(SLAVE) $(SLAVEH) $(ROUTERH) $(IPH) $(MACH)
+	$(CC) $(CXXFLAGS) -c $(SLAVE) $(LIBS)
 
 clean:
 	rm Project *.o
