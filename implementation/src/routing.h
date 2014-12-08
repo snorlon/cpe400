@@ -19,9 +19,7 @@ class routingEntry
 
         routingEntry* next;
 
-        routingEntry(hub* ndevice = NULL);
-        routingEntry(routingEntry* oldEntry);
-        routingEntry(ip* target, mac* nextHop, int nweight = 1, routingEntry* priorEntry = NULL);
+        routingEntry(hub* ndevice, ip* target, mac* nextHop, int nweight = 1, routingEntry* priorEntry = NULL);
         ~routingEntry();
 
         bool containsIP(ip* address);

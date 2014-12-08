@@ -18,6 +18,8 @@ class packet
 
         string data;
 
+        int id;//for testing
+
         //Protocol always UDP so no need to state it, it is assumed
         //Length assumed not needed
         //Checksum not used

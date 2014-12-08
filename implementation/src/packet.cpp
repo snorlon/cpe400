@@ -15,6 +15,7 @@ packet::packet()
 
     sourcePort = 0;//unused
     destinationPort = 0;
+    id = rand() % 10000;
 }
 
 packet::packet(string newData, ip* origin, ip* dest)
@@ -28,6 +29,7 @@ packet::packet(string newData, ip* origin, ip* dest)
 
     sourcePort = 0;//unused
     destinationPort = 0;
+    id = rand() % 10000;
 }
 
 packet::~packet()

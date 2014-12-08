@@ -39,29 +39,29 @@ class hub
         frame* outgoing;
         frame* incoming;
 
-        bool waiting;
-
         hub();
         ~hub();
 
-        void init();
+        void init();//initialize the device for operation
 
+        bool storeEntry(routingEntry* midpoint, routingEntry* targetEntry);//attempt to store the given entry into the routing table and replace if existent
         void generateRoutingInfo();//run this N times, N being the number of routers
 
-        string typeString();
-        bool addLink(link* newLink);
-        bool linkTo(hub* destination);
-        void giveIP(ip* newIP);
-        frame* generateMessage();//generate a message to send
-        void tick(double dt);
+        string typeString();//get the name of the device, EX: Hub, Router, Switch
+        bool addLink(link* newLink);//add an existing link to our links list
+        bool linkTo(hub* destination);//create a link to a device
+        void giveIP(ip* newIP);//assign the router an ip
+        void tick(double dt);//all stuff happens in here, message generation and frame processing
         void sendFrame(frame* newData);//toss a frame into our outgoing queue
-        void recieveFrame(frame* newData);//recieve a frame from someone
-        void broadcast(int operation, frame* payload);
-        void broadcastRREQ(ip* origin, ip* target, int TTL, routingEntry* routingInfo);
-        int canReach(ip* address);
-        void storeRouting(routingEntry* routingData, bool forward);//attempts to store the routing info we just found
-        routingEntry* getEntry(ip* dest);
-        void forwardFrame(frame* package);
+        void recieveFrame(frame* newData);//recieve a frame from someone into our incoming queue
+        void broadcast(int operation, frame* payload);//unused, can be used, TO FINISH
+        int canReach(ip* address);//determine the distance to the target address from us, default is 999999
+        void storeRouting(routingEntry* routingData);//attempts to store the routing info we just found
+        routingEntry* acquireEntry(ip* dest);//get the routing table entry for the particular ip address
+        void forwardFrame(frame* package);//send an already generated frame to the mac address on it (if we have it), if not, use IP to find it out, TO FINISH: IP TO MAC CONVERSION
+        void processOutgoing();
+        void processIncoming();
+        void generateMessage();//generates a random message to a random someone somewhere
     private:
 };
 

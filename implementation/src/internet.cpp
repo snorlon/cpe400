@@ -59,12 +59,24 @@ void internet::init()
 {
     hub* iterator = connectedDevices;
 
-    //destroy the internet
+    //init the internet
     while(iterator!=NULL)
     {
         iterator->init();
 
         iterator = iterator->next;
+    }
+
+    //generate routing info
+    for(int i=0; i<connectedDeviceCount;i++)
+    {
+        iterator = connectedDevices;
+        while(iterator!=NULL)
+        {
+            iterator->generateRoutingInfo();
+
+            iterator = iterator->next;
+        }
     }
 }
 

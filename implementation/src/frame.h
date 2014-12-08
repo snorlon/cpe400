@@ -17,8 +17,6 @@ class frame
 
         int id;//for debugging
 
-        routingEntry* routingData;//for storing data from RREQ
-
         frame* next;//for queuing them
 
         //hardware type not needed
@@ -27,7 +25,7 @@ class frame
         int operation;
 
         frame();
-        frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* locDest, int noperation, routingEntry* priorEntries = NULL);
+        frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* locDest, int noperation);
         ~frame();
 
         datagram* strip();//bring out that sexy packet to work with, returns null if none for some reason

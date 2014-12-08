@@ -13,14 +13,10 @@ frame::frame()
 
     next = NULL;
 
-    routingData = NULL;
-
     operation = 0;
-
-    id = 0;
 }
 
-frame::frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* locDest, int noperation, routingEntry* priorEntries)
+frame::frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* locDest, int noperation)
 {
     payload = npayload;
     senderIP = originIP;
@@ -29,11 +25,7 @@ frame::frame(datagram* npayload, ip* originIP, ip* destIP, mac* locOrigin, mac* 
     destinationMac = locDest;
     operation = noperation;
 
-    routingData = priorEntries;
-
     next = NULL;
-
-    id = rand() % 10000;
 }
 
 frame::~frame()
