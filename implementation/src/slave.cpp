@@ -64,8 +64,6 @@ void slave::processOutgoing()
                     //clean up
                     processed = true;
                 }
-                //else
-                    //cout<<neighbors->end->macAddress.printout()<<"|"<<ournextHop->printout()<<"|"<<macAddress.printout()<<endl;
                 neighbors=neighbors->next;
             }
         }
@@ -83,6 +81,9 @@ void slave::tick(float dt, int outputlevel)
             else
                 cout<<"*"<<macAddress.printout()<<" transmitting!"<<endl;
         }
+	else if(outputlevel <= 1 && outgoing!=NULL)
+        	cout<<"*"<<macAddress.printout()<<" transmitting!"<<endl;
+
         hub::tick(dt, outputlevel);
     }
 
