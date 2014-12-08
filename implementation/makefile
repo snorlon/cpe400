@@ -86,7 +86,7 @@ packet.o: $(PACKET) $(PACKETH) $(IPH)
 routing.o: $(ROUTING) $(ROUTINGH) $(IPH) $(MACH) $(LINKH)
 	$(CC) $(CXXFLAGS) -c $(ROUTING) $(LIBS)
 
-master.o: $(MASTER) $(MASTERH) $(SLAVEH) $(ROUTERH) $(IPH) $(MACH)
+master.o: $(MASTER) $(MASTERH) $(SLAVEH) $(HUBH) $(ROUTERH) $(IPH) $(MACH)
 	$(CC) $(CXXFLAGS) -c $(MASTER) $(LIBS)
 
 slave.o: $(SLAVE) $(SLAVEH) $(ROUTERH) $(IPH) $(MACH)

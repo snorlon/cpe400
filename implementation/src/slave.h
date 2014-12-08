@@ -5,9 +5,12 @@
 class slave: public router
 {
     public:
+        bool permittedToTransmit;
 
         slave();
         ~slave();
+
+        void processOutgoing();
     private:
 };
 

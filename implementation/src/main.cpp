@@ -17,11 +17,11 @@ typedef std::chrono::nanoseconds nanoseconds;
 int main(int argv, char* argc[])
 {
     //seed stuff
-    srand (time(NULL));
-    //srand (12);
+    //srand (time(NULL));
+    srand (25);
 
     //create the internet here
-    theInternet = new internet(30, 5);//temporarily hard-coded parameters
+    theInternet = new internet(10, 5);//temporarily hard-coded parameters
 
     Clock::time_point t0 = Clock::now();//set our clocks
 

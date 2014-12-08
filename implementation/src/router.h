@@ -18,7 +18,6 @@ class router: public switchDevice
         void tick(float dt);//do all actions per tick here, this is for integration purposes
         bool transmit(ip* destination);//generate a random transmission, can give it an IP address to override the random part, bool if fail
         bool connect(hub* neighbor);//physically connect to a new neighbor, bool if fail
-
     private:
 };
 

@@ -9,6 +9,8 @@ master::master()
     //default all slaves for now
     for(int i=0; i<slaveMax; i++)
         slaves[i] = NULL;
+
+    currentTransmitting = 0;
 }
 
 master::~master()
@@ -43,5 +45,25 @@ void master::init()
 
         newEntry = new routingEntry(slaves[i], slaves[i]->ipAddress, &(slaves[i]->macAddress), 5);//we have a static weight for latency for whatever reason
         storeRouting(newEntry);
+    }
+}
+
+void master::tick(double dt)//do our tick first, then our loyal slaves
+{
+    hub::tick(dt);//tick us
+
+    //give a child permission to act
+    if(slaves[currentTransmitting]!=NULL)
+        slaves[currentTransmitting]->permittedToTransmit = true;
+
+    //move the index forward
+    currentTransmitting++;
+    if(currentTransmitting>=childCount)
+        currentTransmitting = 0;
+
+    for(int i=0; i<childCount; i++)
+    {
+        //BUGGY
+        ((hub*) slaves[i])->tick(dt);//tick the slave
     }
 }

@@ -24,7 +24,7 @@ hub::hub()
     macAddress.printout();
 
     //generate some random frequency data
-    messageGenThreshold = (rand() % 100000000)+12000000;
+    messageGenThreshold = (rand() % 10000000)+12000000;
 
     incoming = NULL;
     outgoing = NULL;

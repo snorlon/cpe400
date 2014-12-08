@@ -53,7 +53,7 @@ class hub
         bool addLink(link* newLink);//add an existing link to our links list
         bool linkTo(hub* destination);//create a link to a device
         void giveIP(ip* newIP);//assign the router an ip
-        void tick(double dt);//all stuff happens in here, message generation and frame processing
+        virtual void tick(double dt);//all stuff happens in here, message generation and frame processing
         void sendFrame(frame* newData);//toss a frame into our outgoing queue
         void recieveFrame(frame* newData);//recieve a frame from someone into our incoming queue
         void broadcast(int operation, frame* payload);//unused, can be used, TO FINISH
@@ -61,7 +61,7 @@ class hub
         void storeRouting(routingEntry* routingData);//attempts to store the routing info we just found
         routingEntry* acquireEntry(ip* dest);//get the routing table entry for the particular ip address
         void forwardFrame(frame* package);//send an already generated frame to the mac address on it (if we have it), if not, use IP to find it out, TO FINISH: IP TO MAC CONVERSION
-        void processOutgoing();
+        virtual void processOutgoing();//virtual so that slaves can override it
         void processIncoming();
         void generateMessage();//generates a random message to a random someone somewhere
     private:
