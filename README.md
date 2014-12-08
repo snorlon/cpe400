@@ -20,7 +20,8 @@ To run:
         The default for SEED is a random seed based on the current time
         The default for CYCLELIMIT is 0, which means it will run infinitely
         The default for OUTPUTLEVEL is 0, which will show everything
-            1 shows all but the master-slave-specific information, effectively showing the passage of messages between devices
+            1 shows less host-slave info, only when messages are moved through a slave
+            2 shows all but the master-slave-specific information, effectively showing the passage of messages between devices
 
     An example:
         ./Project 25 5 125923 1000
